@@ -1,0 +1,18 @@
+{
+    "name": "epii/git-auto-website",
+    "description": "git-auto-website",
+    "authors": [
+        {
+            "name": "MrRen",
+            "email": "543169072@qq.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "epii\\git\\auto\\website\\":"src"
+          
+        }
+    }
+}
