@@ -6,13 +6,20 @@ use epii\server\Tools;
 use Exception;
 
 class website{
+    private static $git = "git";
+    public static function setGitCommand($command)
+    {
+        self::$git ="\"" .$command."\"";
+    }
+
     public static function bindToGit($gitDir,$webDir){
         try{
             if(!is_dir($gitDir)){
-                mkdir($webDir,0777,true);
-                self::runCmd("git -C ".$webDir." init --bare");
+                echo  self::$git."  init --bare   ".$gitDir;
+
+                self::runCmd(self::$git."  init --bare   ".$gitDir);
             }
-            self::runCmd("git  clone ".$gitDir." ".$webDir);
+            self::runCmd(self::$git."  clone ".$gitDir." ".$webDir);
             file_put_contents($hook = $gitDir.DIRECTORY_SEPARATOR."hooks".DIRECTORY_SEPARATOR."post-update",
             '#!/bin/sh
             DEPLOY_PATH='.$webDir.'
@@ -31,7 +38,9 @@ class website{
        
     }
     public static function runCmd($cmd,$echo = false){
+
         exec($cmd,$output,$return);
+
         if($return===0){
             $out =  implode(PHP_EOL,$output);
             if($echo)
