@@ -20,12 +20,18 @@ class website{
             self::runCmd(self::$git."  clone ".$gitDir." ".$webDir);
             file_put_contents($hook = $gitDir.DIRECTORY_SEPARATOR."hooks".DIRECTORY_SEPARATOR."post-update",
             '#!/bin/sh
+            if [ -f "/epii/hooks/git.sh" ]; then
+                /epii/hooks/git.sh start '.$webDir.'
+            fi
             DEPLOY_PATH='.$webDir.'
             unset GIT_DIR
             cd $DEPLOY_PATH
             git fetch --all
             git reset --hard origin/master
             git pull
+            if [ -f "/epii/hooks/git.sh" ]; then
+                /epii/hooks/git.sh finish '.$webDir.'
+            fi
             exec git update-server-info'
             );
             chmod($hook,0777);
